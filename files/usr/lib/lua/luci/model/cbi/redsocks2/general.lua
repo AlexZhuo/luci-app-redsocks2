@@ -95,4 +95,9 @@ o=s:option(Value,"ipset_whitelist",translate("Whitelist Path"))
 o:depends({whitelist_enabled=1})
 --o=s:option(Value,"dest_port",translate("Destination Port"))
 --o.datatype="uinteger"
+-- ---------------------------------------------------
+local apply = luci.http.formvalue("cbi.apply")
+if apply then
+	os.execute("/etc/init.d/redsocks2 restart >/dev/null 2>&1 &")
+end
 return m

@@ -16,4 +16,9 @@ o=s:option(Value,"autosave_interval",translate("Autosave Interval"))
 o.datatype="uinteger"
 o=s:option(Flag,"port_check",translate("Enable Port-based IP Cache"))
 o.rmempty=false
+-- ---------------------------------------------------
+local apply = luci.http.formvalue("cbi.apply")
+if apply then
+	os.execute("/etc/init.d/redsocks2 restart >/dev/null 2>&1 &")
+end
 return m

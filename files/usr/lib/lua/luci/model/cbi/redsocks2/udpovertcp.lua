@@ -70,5 +70,9 @@ o=s:option(Value,"red_port",translate("iptables转发端口"),translate("【基�
 o:depends("tcp_proxy","1")
 o.datatype="uinteger"
 o.placeholder = "11111"
-
+-- ---------------------------------------------------
+local apply = luci.http.formvalue("cbi.apply")
+if apply then
+	os.execute("/etc/init.d/redsocks2 restart >/dev/null 2>&1 &")
+end
 return m
