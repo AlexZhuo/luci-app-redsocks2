@@ -1,0 +1,36 @@
+
+config redsocks2_base
+	option loglevel 'info'
+
+config redsocks2_redirect
+	option local_ip '0.0.0.0'
+	option local_port '11111'
+	option proxy_type 'shadowsocks'
+	option enc_type 'rc4-md5'
+	option ip '1.2.3.4'
+	option port '443'
+	option password '123456'
+	option autoproxy '0'
+
+config redsocks2_autoproxy
+	option no_quick_check_seconds '300'
+	option quick_connect_timeout '2'
+
+config redsocks2_ipcache
+	option cache_size '4'
+	option cache_file '/tmp/redsocks2_ipcache.txt'
+	option stale_time '7200'
+	option autosave_interval '3600'
+	option port_check '0'
+
+config redsocks2_iptables
+	option dest_port '11111'
+	option blacklist_enabled '0'
+	option whitelist_enabled '0'
+
+config redsocks2_udprelay
+	option local_ip '0.0.0.0'
+	option local_port '12345'
+	option dest_ip '8.8.8.8'
+	option proxy_type 'overtcp'
+
