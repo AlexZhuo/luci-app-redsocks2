@@ -322,6 +322,7 @@ redsocks2_iptables_stop_instance() {
 start() {
 
 	config_load 'redsocks2'
+	mkdir /var/etc
 	config_foreach if_enabled 'redsocks2_redirect' 'redsocks2_udprelay'
 	config_foreach gen_config_base 'redsocks2_base' $UDP_CFG_FILE
 	config_foreach gen_config_udpovertcp 'redsocks2_udprelay'
