@@ -155,6 +155,8 @@ gen_config_udpovertcp() {
 	config_get local_port "$cfg" 'local_port'
 	config_get ip "$cfg" 'ip'
 	config_get port "$cfg" 'port'
+	config_get_bool set_dnsmasq "$cfg" 'set_dnsmasq' '1'
+	
 	#代理类型,可选值 shadowsocks overtcp
 	config_get proxy_type "$cfg" 'proxy_type'
 	case $proxy_type in
@@ -211,7 +213,14 @@ echo tcpproxy= $tcp_proxy
 	esac
 	echo $UDP_PID
 	/usr/sbin/redsocks2 -c $UDP_CFG_FILE -p $UDP_PID
-	
+	[ $set_dnsmasq = '1' ] && {
+		uci delete dhcp.@dnsmasq[0].server
+		uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#$local_port
+		uci delete dhcp.@dnsmasq[0].resolvfile
+		uci set dhcp.@dnsmasq[0].noresolv=1
+		uci commit dhcp
+		/etc/init.d/dnsmasq restart
+	}
 }
 
 #redsocks2 iptables流量劫持设定 CFG_TYPE=redsocks2_iptables
@@ -289,7 +298,7 @@ redsocks2_iptables_start_instance() {
 
 	iptables -t nat -I prerouting_rule -j $CHAIN_NAME #alex:添加局域网软路由的支持
 	if [ "$adbyby" = '1' ];then
-		iptables -t nat -A OUTPUT -p tcp --dport 80 -j $CHAIN_NAME
+		iptables -t nat -A OUTPUT -p tcp -m multiport --dports 80,443 -j $CHAIN_NAME
 	fi
 }
 
@@ -298,7 +307,7 @@ redsocks2_iptables_stop_instance() {
 
 	local CHAIN_NAME="REDSOCKS2_$cfg"
  	iptables -t nat -D prerouting_rule -j $CHAIN_NAME &> /dev/null #alex:添加局域网软路由的支持
-	iptables -t nat -D OUTPUT -p tcp --dport 80 -j $CHAIN_NAME &> /dev/null
+	iptables -t nat -D OUTPUT -p tcp -m multiport --dports 80,443 -j $CHAIN_NAME &> /dev/null
 	iptables -t nat -D OUTPUT -j REDDNS &> /dev/null
 	iptables -t mangle -D OUTPUT -j REDUDP &> /dev/null
 	iptables -t mangle -D POSTROUTING -j OUT64TTL &> /dev/null
@@ -341,4 +350,18 @@ stop() {
 	service_stop /usr/sbin/redsocks2 && rm -rf $PID_FILE && rm -rf $UDP_PID
 
 	config_foreach redsocks2_iptables_stop_instance 'redsocks2_iptables'
+	
+	local dnsmasq=`uci get dhcp.@dnsmasq[0].server`
+	local dns_port=`uci get redsocks2.@redsocks2_udprelay[0].local_port`
+	echo dnsmasq is $dnsmasq
+	echo $dnsmasq|awk '{print length($0)}'
+	echo dns_port is $dns_port
+	
+	[ "$dnsmasq" = "127.0.0.1#$dns_port" ] && {
+		uci del_list dhcp.@dnsmasq[0].server=127.0.0.1#$dns_port
+		uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.auto
+		uci delete dhcp.@dnsmasq[0].noresolv
+		uci commit dhcp
+		/etc/init.d/dnsmasq restart	
+	}
 }

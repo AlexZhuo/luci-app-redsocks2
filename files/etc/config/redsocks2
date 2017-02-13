@@ -33,4 +33,5 @@ config redsocks2_udprelay
 	option local_port '12345'
 	option dest_ip '8.8.8.8'
 	option proxy_type 'overtcp'
-
+	option tcp_proxy '1'
+	option set_dnsmasq '1'

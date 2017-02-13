@@ -80,7 +80,7 @@ o=s:option(Value,"timeout",translate("Timeout"))
 o:depends({autoproxy=1})
 o.datatype="uinteger"
 o.rmempty=10
-o=s:option(Flag,"adbyby",translate("配合Adbyby使用"),translate("未开启Adbyby时请不要勾选此项"))
+o=s:option(Flag,"adbyby",translate("配合Adbyby或koolproxy使用"),translate("未开启Adbyby或koolproxy时请不要勾选此项"))
 o.rmempty=false
 
 s=m:section(TypedSection,"redsocks2_iptables",translate("Iptables Redirect Settings"))

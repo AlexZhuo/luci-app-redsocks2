@@ -70,6 +70,8 @@ o=s:option(Value,"red_port",translate("iptables转发端口"),translate("【基�
 o:depends("tcp_proxy","1")
 o.datatype="uinteger"
 o.placeholder = "11111"
+o=s:option(Flag, "set_dnsmasq", translate("自动修改dnsmasq全局配置"))
+o.rmempty=true
 -- ---------------------------------------------------
 local apply = luci.http.formvalue("cbi.apply")
 if apply then
