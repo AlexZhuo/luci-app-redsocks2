@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-redsocks2
-PKG_VERSION=1.2
+PKG_VERSION=1.3
 PKG_RELEASE:=1
 PKG_MAINTAINER:=Alex Zhuo <1886090@gmail.com>
 
@@ -10,10 +10,11 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
-    SECTION:=utils
-    CATEGORY:=Utilities
-    TITLE:=luci for redsocks2 on OpenWrt
-        DEPENDS:=+redsocks2 +kmod-ipt-ipopt +iptables-mod-ipopt +ipset +ip-full +iptables-mod-tproxy +kmod-ipt-tproxy +iptables-mod-nat-extra
+	SECTION:=luci
+	CATEGORY:=Network
+	SUBMENU:=Luci   
+	TITLE:=luci for redsocks2 on OpenWrt
+	DEPENDS:=+redsocks2 +kmod-ipt-ipopt +iptables-mod-ipopt +ipset +ip-full +iptables-mod-tproxy +kmod-ipt-tproxy +iptables-mod-nat-extra
 endef
 
 define Package/$(PKG_NAME)/description

@@ -155,7 +155,7 @@ gen_config_udpovertcp() {
 	config_get local_port "$cfg" 'local_port'
 	config_get ip "$cfg" 'ip'
 	config_get port "$cfg" 'port'
-	config_get_bool set_dnsmasq "$cfg" 'set_dnsmasq' '1'
+	config_get_bool set_dnsmasq "$cfg" 'set_dnsmasq' '0'
 	
 	#代理类型,可选值 shadowsocks overtcp
 	config_get proxy_type "$cfg" 'proxy_type'

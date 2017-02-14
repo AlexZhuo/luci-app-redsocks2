@@ -54,7 +54,7 @@
    cd OpenWrt-SDK-ar71xx-*
    # 获取 Makefile
    git clone https://github.com/AlexZhuo/luci-app-redsocks2.git package/luci-app-redsocks2
-   # 选择要编译的包 Utilities -> luci-app-redsocks2
+   # 选择要编译的包 Luci -> Network -> luci-app-redsocks2
    make menuconfig
    # 开始编译
    make package/luci-app-redsocks2/compile V=99
