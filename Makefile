@@ -14,6 +14,7 @@ define Package/$(PKG_NAME)
 	CATEGORY:=Network
 	SUBMENU:=Luci   
 	TITLE:=luci for redsocks2 on OpenWrt
+	PKGARCH:=all
 	DEPENDS:=+redsocks2 +kmod-ipt-ipopt +iptables-mod-ipopt +ipset +ip-full +iptables-mod-tproxy +kmod-ipt-tproxy +iptables-mod-nat-extra
 endef
 
