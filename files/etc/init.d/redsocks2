@@ -289,8 +289,8 @@ redsocks2_iptables_start_instance() {
 		iptables -t mangle -A REDUDP  -d 127.0.0.0/8 -j RETURN
 		iptables -t mangle -A REDUDP  -d 224.0.0.0/3 -j RETURN
 		
-		ip rule add fwmark 0x01/0x01 table 100
-		ip route add local 0.0.0.0/0 dev lo table 100
+		ip rule add fwmark 1 lookup 100
+		ip route add local default dev lo table 100
 		iptables -t mangle -A REDUDP -p udp -j TPROXY --on-port 20000 --tproxy-mark 0x01/0x01
 		iptables -t mangle -A PREROUTING -j REDUDP
 
