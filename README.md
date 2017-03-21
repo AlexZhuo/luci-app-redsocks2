@@ -9,7 +9,7 @@
 
 主要功能
 
-1、支持Socks5和Shadowsocks的透明代理
+1、支持Socks5,Socks4,HTTP和Shadowsocks的透明代理
 
 2、支持Shadowsocks的UDP转发功能
 

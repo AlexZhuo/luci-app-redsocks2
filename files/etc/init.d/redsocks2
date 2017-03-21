@@ -75,6 +75,9 @@ EOF
 	[ $autoproxy = '1' ] && echo "timeout = $timeout;" >> $CFG_FILE
 	case $proxy_type in
 		socks5 | \
+		socks4 | \
+		http-connect | \
+		http-relay | \
 		shadowsocks)
 			[ ! -z $redsocks2_login ] && {
 				echo "login = $redsocks2_login;" >> $CFG_FILE
